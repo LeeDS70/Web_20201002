@@ -3,7 +3,6 @@ document.getElementById("search_btn").addEventListener('click', search_message);
 function search_message(){
 	
 	let search_str = document.querySelector("#search_txt"); //변수에 저장
-	
 	if(search_str.value.length === 0) // 문자 길이, 엄격 비교
 	{
 		alert("검색어가 비었습니다. 입력해주세요.")
