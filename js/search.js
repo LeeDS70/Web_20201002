@@ -7,9 +7,8 @@ function search_message(){
 	{
 		alert("검색어가 비었습니다. 입력해주세요.")
 	}
-	
-	else if(search_str.value === "123" || search_str.value === "456" || search_str.value === "789"){
-		alert("비속어는 검색할 수 없습니다.")
+	else if (search_str.value.includes("123")||search_str.value.includes("456")||search_str.value.includes("789")) {
+  		alert("비속어는 사용할 수 없습니다.");
 	}
 	else{
 		alert("검색을 수행합니다!");
