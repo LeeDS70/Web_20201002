@@ -1,5 +1,7 @@
 document.getElementById("search_btn").addEventListener('click', search_message);
 
+var search_array = []; // 빈 배열 - 전역 변수
+
 function search_message(){
 	
 	let search_str = document.querySelector("#search_txt"); //변수에 저장
@@ -12,8 +14,12 @@ function search_message(){
 	}
 	else{
 		alert("검색을 수행합니다!");
-		let text = document.getElementById("search_message").innerHTML = search_str.value; //태그에 값 추가
+		search_array.push(search_str.value);
+		document.getElementById("search_message").innerHTML = search_array.toString(); //태그에 값 추가
 		//console.log(search_str.value);
 		document.querySelector("#form_main").submit();
+		if (search_array.length >= 10){
+			search_array.shift();
+		}
 	}
 }
