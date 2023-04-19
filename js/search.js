@@ -3,7 +3,6 @@ document.getElementById("search_btn").addEventListener('click', search_message);
 var search_array = []; // 빈 배열 - 전역 변수
 
 function search_message(){
-	
 	let search_str = document.querySelector("#search_txt"); //변수에 저장
 	if(search_str.value.length === 0) // 문자 길이, 엄격 비교
 	{
