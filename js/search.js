@@ -1,6 +1,7 @@
 document.getElementById("search_btn").addEventListener('click', search_message);
 
 var search_array = []; // 빈 배열 - 전역 변수
+var no_str = ['123','456','789'];
 
 function search_message(){
 	let search_str = document.querySelector("#search_txt"); //변수에 저장
