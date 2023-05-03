@@ -1,4 +1,7 @@
 function login(){
+	var ID = ["qwer@example.com"];
+	var PW = ["qwer"];
+	
 	let form = document.querySelector("#form_main");
 	let id = document.querySelector("#floatingInput");
 	let password = document.querySelector("#floatingPassword");
@@ -10,28 +13,31 @@ function login(){
 		alert("아이디와 비밀번호를 모두 입력해주세요.");
 	}
 	
-	else if(login_check_id(id) == false){
-		alert("옳바른 이메일을 입력하세요.")
+	else if(login_check(id) == false){
+		alert("이메일 주소를 입력하세요.")
 	}
 	
-	else if(login_check_pw(password) == false){
-		alert("옳바른 비밀번호를 입력하세요.")
-	}
+	for(var i = 0; i < ID.length; i++){
+		if(id.value != ID[i]){
+		alert("유효하지 않는 이메일입니다.");
+		}
 	
-	else{
-		form.submit();
+		else if(id.value == ID[i]){
+			if(password.value != PW[i]){
+				alert("비밀번호를 틀렸습니다.");
+			}
+			else{
+				form.submit();
+			}
+		}
 	}
 }
 
-function login_check_id(text){
-	var pattern_id = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-	return (text.value.match(pattern_id) != null)
+function login_check(text){
+	var pattern = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+	return (text.value.match(pattern) != null)
 }
 
-function login_check_pw(text){
-	var pattern_pw = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){2,3}$/i;
-	return (text.value.match(pattern_pw) != null)
-}
 
 function logout(){
     location.href='../index.html';
