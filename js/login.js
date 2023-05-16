@@ -1,5 +1,3 @@
-let count = 0;
-
 function login(){
 	var ID = ["qwer@example.com"];
 	var PW = ["qwer"];
@@ -8,18 +6,26 @@ function login(){
 	let id = document.querySelector("#floatingInput");
 	let password = document.querySelector("#floatingPassword");
 	let check = document.querySelector("#idSaveCheck");
-	count += 1;
 
-	form.action = "../index_login.html";
+	form.action = "/index_login.html";
 	form.method = "get";
 	
-	var cookie_count = getCookie("login_cnt");	
-	if(cookie_count == ""){
-			setCookie("login_cnt", count, 1);
+	let login_count = 1;
+	var cookie_login_count = getCookie("login_cnt");
+	
+	if(!cookie_login_count){
+		setCookie("login_cnt", login_count, 1);
 	}
-	if (cookie_count >= "5"){
-				alert("로그인 가능 횟수가 초과되었습니다.")
-		}
+	
+	else {
+		setCookie("login_cnt", cookie_login_count, 1);
+	}
+
+	var splited_cookie_login_count = cookie_login_count.split("");
+	
+	if (splited_cookie_login_count.length >= "6"){
+		alert("5회 로그인에 실패하였습니다.")
+	}
 	
 	else{
 		if(check.checked == true){
@@ -29,20 +35,19 @@ function login(){
 		}
 	
 		else{
-			setCookie("id", id.value, 0);
+			deleteCookie("id");
 		}
 	
+		cookie_login_count += 1;
+		
 		if(id.value.length === 0 || password.value.length === 0){
 			alert("아이디와 비밀번호를 모두 입력해주세요.");
-			setCookie("login_cnt", count, 1);
-
 		}	
 	
-	
 		else if(login_check(id) == false){ //id.value가 패턴에 틀린 것이 있으면 
-			alert("이메일 주소를 입력하세요.")
+			alert("이메일 주소를 입력하세요.");
 		}
-	
+
 		else{
 			for(var i = 0; i < ID.length; i++){
 				if(id.value != ID[i]){
@@ -53,10 +58,10 @@ function login(){
 					if(password.value != PW[i]){
 						alert("비밀번호를 틀렸습니다.");
 					}
-			
-				}
-				else{
-					form.submit();
+					
+					else{
+						form.submit();
+					}
 				}
 			}
 		}
@@ -109,6 +114,17 @@ function login_check(text){
 
 
 function logout(){
+	let logout_count = 1;
+	var cookie_logout_count = getCookie("logout_cnt");
+	if(!cookie_logout_count){
+		setCookie("logout_cnt", logout_count, 1);
+	}
+	
+	cookie_logout_count += 1;
+	
+	if(cookie_logout_count){
+		setCookie("logout_cnt", cookie_logout_count, 1);
+	}
     location.href='../index.html';
 }
 
