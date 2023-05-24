@@ -33,6 +33,7 @@ function login(){
 	login_count = parseInt(cookie_login_count);
 	var cookie_login_fail_count = getCookie("login_fail_cnt");
 	
+	
 	if(cookie_login_fail_count == "NaN" || cookie_login_fail_count == "undefi" || cookie_login_fail_count == "undefined"){
 		setCookie("login_fail_cnt", 0, 1);
 	}
@@ -49,7 +50,7 @@ function login(){
 		setCookie_log("login_cnt", login_count, 1);
 	}
 	
-	if (login_fail_count >= 6){
+	if (cookie_login_fail_count >= 6){
 		alert("5회 로그인에 실패하였습니다.")
 	}
 	
@@ -68,25 +69,25 @@ function login(){
 		
 		if(id.value.length === 0 || password.value.length === 0){
 			alert("아이디와 비밀번호를 모두 입력해주세요.");
-			setCookie_log("login_fail_cnt", login_fail_count, 1);
+			setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
 		}	
 	
 		else if(login_check(id) == false){ //id.value가 패턴에 틀린 것이 있으면 
 			alert("이메일 주소를 입력하세요.");
-			setCookie_log("login_fail_cnt", login_fail_count, 1);
+			setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
 		}
 
 		else{
 			for(var i = 0; i < ID.length; i++){
 				if(id.value != ID[i]){
 					alert("유효하지 않는 이메일입니다.");
-					setCookie_log("login_fail_cnt", login_fail_count, 1);
+					setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
 				}
 	
 				else if(id.value == ID[i]){
 					if(password.value != PW[i]){
 						alert("비밀번호를 틀렸습니다.");
-						setCookie_log("login_fail_cnt", login_fail_count, 1);
+						setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
 					}
 					
 					else{
@@ -99,40 +100,7 @@ function login(){
 	}
 }
 
-function setCookie(name, value, expiredays){
-	var date = new Date();
-	date.setDate(date.getDate() + expiredays);
-	document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString() + "SameSite=None; Secure";
-}
 
-function setCookie_log(name, value, expiredays){
-	var date = new Date();
-	date.setDate(date.getDate() + expiredays);
-	value = parseInt(value) + parseInt(1);
-	document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString() + "SameSite=None; Secure";
-}
-
-function getCookie(name){
-	var cookie = document.cookie;
-	console.log("쿠키를 요청합니다.");
-	if(cookie != ""){
-		var cookie_array = cookie.split("; ");
-		for(var index in cookie_array){
-			var cookie_name = cookie_array[index].split("=")
-			
-			if(cookie_name[0] == name){
-				return cookie_name[1];
-			}
-		}
-	}
-	return;
-}
-
-function deleteCookie(cookieName){
-	var expireDate = new Date();
-	expireDate.setDate(expireDate.getDate() - 1);
-	document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString() + "SameSite=None; Secure";
-}
 
 function init(){
 	let id = document.querySelector("#floatingInput");
@@ -188,75 +156,18 @@ function get_id(){
 	
 }
 
-function session_set(){
-	let id = document.querySelector("#floatingInput");
-	let password = document.querySelector("#floatingPassword");
-	if(sessionStorage){
-		let en_text = encrypt_text(password.value);
-		sessionStorage.setItem("Session_Storage_test", en_text);
-	}
-	else{
-		alert("로컬 스토리지 지원 X");
-	}
+
+
+
+
+function addJavascript(jsname){
+	var th = document.getElementsByTagName('head')[0];
+	var s = document.createElement('script');
+	s.setAttribute('type', 'text/javascript');
+	s.setAttribute('src', jsname);
+	th.appendChild(s);
 }
 
-function session_get(){
-	if(sessionStorage){
-		return sessionStorage.getItem("Session_Storage_test");
-	}
-	else{
-		alert("세션 스토리지 지원 x");
-	}
-}
-
-function session_check(){
-	if(sessionStorage.getItem("Session_Storage_test")){
-		alert("이미 로그인 되었습니다.");
-		location.href = 'index_login.html';
-	}
-}
-
-function session_del(){
-	if(sessionStorage){
-		sessionStorage.removeItem("Session_Storage_test");
-		alert("로그아웃 입력을 확인 : 세션 스토리지를 삭제합니다.")
-	}
-	else{
-		alert("세션 스토리지 지원 x");
-	}
-}
-
-function encodeByAES256(key, data){
-	const cipher = CryptoJS.AES.encrypt(data, CryptoJS.enc.Utf8.parse(key), {
-		iv: CryptoJS.enc.Utf8.parse(""),
-		padding: CryptoJS.pad.Pkcs7,
-		mode: CryptoJS.mode.CBC
-	});
-	return cipher.toString();
-}
-
-function decodeByAES256(key, data){
-	const cipher = CryptoJS.AES.decrypt(data, CryptoJS.enc.Utf8.parse(key), {
-		iv: CryptoJS.enc.Utf8.parse(""),
-		padding: CryptoJS.pad.Pkcs7,
-		mode: CryptoJS.mode.CBC
-	});
-	return cipher.toString(CryptoJS.enc.Utf8);
-}
-
-function encrypt_text(password){
-	const k = "key";
-	const rk = k.padEnd(32, " ");
-	const b = password;
-	const eb = this.encodeByAES256(rk, b);
-	return eb;
-	console.log(eb);
-}
-
-function decrypt_text(){
-	const k = "key";
-	const rk = k.padEnd(32, " ");
-	const eb = session_get();
-	const b = this.decodeByAES256(rk, eb);
-	console.log(b);
-}
+addJavascript('/js/security.js');
+addJavascript('/js/session.js');
+addJavascript('/js/cookie.js');
