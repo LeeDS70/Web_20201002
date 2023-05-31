@@ -1,3 +1,15 @@
+function addJavascript(jsname){
+	var th = document.getElementsByTagName('head')[0];
+	var s = document.createElement('script');
+	s.setAttribute('type', 'text/javascript');
+	s.setAttribute('src', jsname);
+	th.appendChild(s);
+}
+
+addJavascript('/js/security.js');
+addJavascript('/js/session.js');
+addJavascript('/js/cookie.js');
+
 function login(){
 	var ID = ["qwer@example.com"];
 	var PW = ["qwer"];
@@ -33,16 +45,16 @@ function login(){
 	login_count = parseInt(cookie_login_count);
 	var cookie_login_fail_count = getCookie("login_fail_cnt");
 	
-	
-	if(cookie_login_fail_count == "NaN" || cookie_login_fail_count == "undefi" || cookie_login_fail_count == "undefined"){
-		setCookie("login_fail_cnt", 0, 1);
+	if(cookie_login_fail_count == "NaN" || cookie_login_fail_count == "undefi" || cookie_login_fail_count == "undefined" || cookie_login_fail_count == ""){
+		setCookie("login_fail_cnt", 1, 1);
+		var cookie_login_fail_count = getCookie("login_fail_cnt");
 	}
 	
-	else{
-		setCookie("login_fail_cnt", 0, 1);
+	if(typeof cookie_login_fail_count == "int"){
+		var cookie_login_fail_count = parseInt(cookie_login_fail_count);
 	}
 	
-	if(cookie_login_count == "NaN" || cookie_login_count == "undefi" || cookie_login_count == "undefined"){
+	if(cookie_login_count == "NaN" || cookie_login_count == "undefi" || cookie_login_count == "undefined" || cookie_login_count == ""){
 		setCookie("login_cnt", 0, 1);
 	}
 	
@@ -65,8 +77,6 @@ function login(){
 			deleteCookie("id");
 		}
 	
-		
-		
 		if(id.value.length === 0 || password.value.length === 0){
 			alert("아이디와 비밀번호를 모두 입력해주세요.");
 			setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
@@ -153,21 +163,5 @@ function get_id(){
 		}
 		alert(getParameters('id') + "님 반갑습니다.");
 	}
-	
+	setTimeout(logout, 300000);
 }
-
-
-
-
-
-function addJavascript(jsname){
-	var th = document.getElementsByTagName('head')[0];
-	var s = document.createElement('script');
-	s.setAttribute('type', 'text/javascript');
-	s.setAttribute('src', jsname);
-	th.appendChild(s);
-}
-
-addJavascript('/js/security.js');
-addJavascript('/js/session.js');
-addJavascript('/js/cookie.js');
