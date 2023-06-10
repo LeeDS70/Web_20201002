@@ -11,8 +11,6 @@ addJavascript('/js/session.js');
 addJavascript('/js/cookie.js');
 
 function login(){
-	var ID = ["qwer@example.com"];
-	var PW = ["qwer"];
 	
 	let form = document.querySelector("#form_main");
 	let id = document.querySelector("#floatingInput");
@@ -55,15 +53,15 @@ function login(){
 	}
 	
 	if(cookie_login_count == "NaN" || cookie_login_count == "undefi" || cookie_login_count == "undefined" || cookie_login_count == ""){
-		setCookie("login_cnt", 0, 1);
+		setCookie("login_cnt", 1, 1);
 	}
 	
 	else {
 		setCookie_log("login_cnt", login_count, 1);
 	}
 	
-	if (cookie_login_fail_count >= 6){
-		alert("5회 로그인에 실패하였습니다.")
+	if (cookie_login_fail_count >= 3){
+		alert("3회 로그인에 실패하였습니다.")
 	}
 	
 	else{
@@ -83,29 +81,13 @@ function login(){
 		}	
 	
 		else if(login_check(id) == false){ //id.value가 패턴에 틀린 것이 있으면 
-			alert("이메일 주소를 입력하세요.");
+			alert("형식에 맞지 않은 이메일 주소입니다..");
 			setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
 		}
 
 		else{
-			for(var i = 0; i < ID.length; i++){
-				if(id.value != ID[i]){
-					alert("유효하지 않는 이메일입니다.");
-					setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
-				}
-	
-				else if(id.value == ID[i]){
-					if(password.value != PW[i]){
-						alert("비밀번호를 틀렸습니다.");
-						setCookie_log("login_fail_cnt", cookie_login_fail_count , 1);
-					}
-					
-					else{
-						session_set();
-						form.submit();
-					}
-				}
-			}
+			session_set();
+			form.submit();
 		}
 	}
 }

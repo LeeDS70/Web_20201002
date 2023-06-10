@@ -7,8 +7,8 @@ show_time();
 
 function show_time(){
 	let msg = "남은 시간은 " + close_time2 + "초 입니다.";
-	let divClock = document.getElementById('Time');
-	divClock.innerText = msg; // 10초 삽입 시작
+	let Time = document.getElementById('Time');
+	Time.innerText = msg; // 10초 삽입 시작
 	close_time2--; // 1초씩 감소
 	setTimeout(show_time, 1000); // 1초마다 갱신
 }
