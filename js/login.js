@@ -143,7 +143,7 @@ function get_id(){
 				}
 			};
 		}
-		alert(getParameters('id') + "님 반갑습니다.");
+		alert(getParameters(id) + "님 반갑습니다.");
 	}
 	setTimeout(logout, 300000);
 }
